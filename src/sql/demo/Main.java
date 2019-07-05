@@ -4,9 +4,7 @@ import java.util.*;
 
 
 public class Main {
-    public static List<Map<String, Object>> executeQuery(Connection con, String query)
-            throws SQLException {
-        query = "SUP_ID, TITLE, CONTENT, CREATED_ON, UPDATE_ON ";
+    public static List<Map<String, Object>> executeQuery(Connection con, String query) {
         List<Map<String, Object>> mapList = new ArrayList<Map<String, Object>>();
         try (Statement stmt = con.createStatement()){
             ResultSet rs = stmt.executeQuery(query);
