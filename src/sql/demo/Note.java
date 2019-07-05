@@ -6,18 +6,17 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class Note {
 
-    private Integer id;
-    private static AtomicInteger count = new AtomicInteger(0);
-    private String title;
-    private String content;
-    private Date createdOn;
-    private Date updateOn;
-
     public static final String ID = "id";
     public static final String TITLE = "title";
     public static final String CONTENT = "content";
     public static final String CREATED_ON = "created_on";
     public static final String UPDATE_ON = "update_on";
+
+    private Integer id;
+    private String title;
+    private String content;
+    private Date createdOn;
+    private Date updateOn;
 
     public Note() {
         createdOn = new Date();
