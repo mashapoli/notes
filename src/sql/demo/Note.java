@@ -8,12 +8,12 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class Note {
 
-    private int oSupId;
+    private int supId;
     private static AtomicInteger count = new AtomicInteger(0);
-    private String oTitle;
-    private String oContent;
-    private Date oCreatedOn;
-    private Date oUpdateOn;
+    private String title;
+    private String content;
+    private Date createdOn;
+    private Date updateOn;
 
     public static final String SUP_ID = "sup_id";
     public static final String TITLE = "title";
@@ -22,9 +22,9 @@ public class Note {
     public static final String UPDATE_ON = "update_on";
 
     public Note() {
-        oSupId = count.incrementAndGet();
-        oCreatedOn = new Date();
-        oUpdateOn = new Date();
+        supId = count.incrementAndGet();
+        createdOn = new Date();
+        updateOn = new Date();
     }
 
     @Override
@@ -36,47 +36,47 @@ public class Note {
         ResultSetMetaData md = rs.getMetaData();
         int colums = md.getColumnCount();
         Map<String, Object> row = new HashMap<String, Object>(colums);
-        row.put(SUP_ID, oSupId);
-        row.put(TITLE, oTitle);
-        row.put(CONTENT, oContent);
-        row.put(CREATED_ON, oCreatedOn);
-        row.put(UPDATE_ON, oUpdateOn);
+        row.put(SUP_ID, supId);
+        row.put(TITLE, title);
+        row.put(CONTENT, content);
+        row.put(CREATED_ON, createdOn);
+        row.put(UPDATE_ON, updateOn);
         return row;
     }
 
-    public Date getDateCreated() {
-        return oCreatedOn;
+    public Date getCreatedOn() {
+        return createdOn;
     }
 
-    public Date getDateUpdate() {
-        return oUpdateOn;
+    public Date getUpdateOn() {
+        return updateOn;
     }
 
-    public void setDateCreated(Date date) {
-        oCreatedOn = date;
+    public void setCreatedOn(Date date) {
+        createdOn = date;
     }
 
-    public void setDateUpdate(Date date) {
-        oUpdateOn = date;
+    public void setUpdateOn(Date date) {
+        updateOn = date;
     }
 
     public int getSupId() {
-        return oSupId;
+        return supId;
     }
 
     public String getTitle() {
-        return oTitle;
+        return title;
     }
 
     public void setTitle(String title) {
-        oTitle = title;
+        this.title = title;
     }
 
     public String getContent() {
-        return oContent;
+        return content;
     }
 
     public void setContent(String content) {
-        oContent = content;
+        this.content = content;
     }
 }
