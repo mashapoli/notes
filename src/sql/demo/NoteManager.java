@@ -32,7 +32,7 @@ public class NoteManager {
     }
 
     public void deleteNote(Note n) {
-        queryManager.executeQuery(
+        queryManager.execute(
                 String.format("DELETE FROM NOTES WHERE ID = %s", n.getId()));
     }
 

@@ -32,7 +32,17 @@ public class Main {
         note2.setContent("Content 2");
         noteManager.addNote(note2);
 
+        Note note3 = new Note();
+        note3.setTitle("Note 3");
+        note3.setContent("Content 3");
+        noteManager.addNote(note3);
+
         List<Note> notes = noteManager.getNotes();
+        System.out.println("notes = " + notes);
+
+        noteManager.deleteNote(noteManager.getNotes().get(0));
+
+        notes = noteManager.getNotes();
         System.out.println("notes = " + notes);
     }
 }
