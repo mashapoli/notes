@@ -2,36 +2,32 @@ package sql.demo;
 
 import java.util.Date;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class Note {
 
-    public static final String ID = "id";
-    public static final String TITLE = "title";
-    public static final String CONTENT = "content";
-    public static final String CREATED_ON = "created_on";
-    public static final String UPDATE_ON = "update_on";
+    public static final String ID = "ID";
+    public static final String TITLE = "TITLE";
+    public static final String CONTENT = "CONTENT";
+    public static final String CREATED_ON = "CREATED_ON";
+    public static final String UPDATED_ON = "UPDATED_ON";
 
-    private Integer id;
+    private Long id;
     private String title;
     private String content;
     private Date createdOn;
     private Date updateOn;
 
     public Note() {
-        createdOn = new Date();
-        updateOn = new Date();
+        Date now = new Date();
+        createdOn = now;
+        updateOn = now;
     }
     public Note(Map<String, Object> row){
-        id = (Integer) row.get(ID);
+        id = (Long) row.get(ID);
         title = (String) row.get(TITLE);
         content = (String) row.get(CONTENT);
         createdOn = (Date) row.get(CREATED_ON);
-        updateOn = (Date) row.get(UPDATE_ON);
-    }
-    @Override
-    public String toString() {
-        return getTitle();
+        updateOn = (Date) row.get(UPDATED_ON);
     }
 
     public Date getCreatedOn() {
@@ -50,7 +46,7 @@ public class Note {
         updateOn = date;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
@@ -68,5 +64,16 @@ public class Note {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    @Override
+    public String toString() {
+        return "Note{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", content='" + content + '\'' +
+                ", createdOn=" + createdOn +
+                ", updateOn=" + updateOn +
+                '}';
     }
 }
