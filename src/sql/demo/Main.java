@@ -4,8 +4,7 @@ import java.util.*;
 
 public class Main {
 
-    public static   String DB_URL = "jdbc:h2:/D:/JavaPrj/SQLDemo/db/notesDB";
-    public static String DB_Driver = "org.h2.Driver";
+    public static String DB_URL = "jdbc:h2:/D:/JavaPrj/SQLDemo/db/notesDB";
 
     public static Connection getConnection() throws SQLException {
         return DriverManager.getConnection(DB_URL);

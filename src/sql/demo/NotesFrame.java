@@ -1,18 +1,15 @@
 package sql.demo;
 
-import com.sun.javaws.util.JfxHelper;
-
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class NotesFrame extends JFrame{
+
+    private JList<Note> notesList = new JList<>();
 
     public NotesFrame(){
 
         super("Notes");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BorderLayout(5, 5));
@@ -39,8 +36,9 @@ public class NotesFrame extends JFrame{
         periodPanel.add(to);
         periodPanel.add(fieldTo);
 
-        JPanel notes = new JPanel(new FlowLayout());
-        notes.setBorder(BorderFactory.createTitledBorder("Notes"));
+        JPanel notesPanel = new JPanel(new BorderLayout());
+        notesPanel.setBorder(BorderFactory.createTitledBorder("Notes"));
+        notesPanel.add(notesList, BorderLayout.CENTER);
 
         JButton newNotes = new JButton("New Notes");
         JButton edit = new JButton("Edit");
@@ -54,7 +52,7 @@ public class NotesFrame extends JFrame{
         button.add(delete);
 
         mainPanel.add(periodPanel, BorderLayout.NORTH);
-        mainPanel.add(notes, BorderLayout.CENTER);
+        mainPanel.add(notesPanel, BorderLayout.CENTER);
         mainPanel.add(button, BorderLayout.SOUTH);
 
 
@@ -63,20 +61,10 @@ public class NotesFrame extends JFrame{
         JButton show = new JButton("Show");
         periodPanel.add(show);
 
-
         setPreferredSize(new Dimension(600, 600));
         pack();
         setLocationRelativeTo(null);
-        setVisible(true);
-    }
-
-    public static void main(String args[]){
-        javax.swing.SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                JFrame.setDefaultLookAndFeelDecorated(true);
-                new NotesFrame();
-            }
-        });
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
 }
