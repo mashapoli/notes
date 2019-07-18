@@ -30,12 +30,23 @@ public class MainGUI {
         );
         NoteManager noteManager = new NoteManager(queryManager);
 
+        Note note1 = new Note();
+        note1.setTitle("Note 1");
+        note1.setContent("Content 1");
+        noteManager.addNote(note1);
+
+        Note note2 = new Note();
+        note2.setTitle("Note 2");
+        note2.setContent("Content 2");
+        noteManager.addNote(note2);
+
+        Note note3 = new Note();
+        note3.setTitle("Note 3");
+        note3.setContent("Content 3");
+        noteManager.addNote(note3);
+
         JFrame.setDefaultLookAndFeelDecorated(true);
-
-        NoteModel noteModel = new NoteModel();
-
-        NoteFrame noteFrame = new NoteFrame();
-        noteFrame.setNoteModel(noteModel);
+        NoteFrame noteFrame = new NoteFrame(noteManager);
 
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {

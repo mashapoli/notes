@@ -4,13 +4,18 @@ import sql.demo.model.NoteModel;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class NoteFrame extends JFrame{
 
+    private NoteManager noteManager;
     private NoteModel noteModel;
 
-    public NoteFrame(){
+    public NoteFrame(NoteManager noteManager){
         super("Notes");
+        this.noteManager = noteManager;
+        noteModel = new NoteModel(noteManager);
     }
 
     public final void initComponents() {
@@ -44,16 +49,33 @@ public class NoteFrame extends JFrame{
         notesPanel.setBorder(BorderFactory.createTitledBorder("Notes"));
         notesPanel.add(new JList<>(getNoteModel()), BorderLayout.CENTER);
 
-        JButton newNotes = new JButton("New Notes");
+        JButton newNotes = new JButton("New");
         JButton edit = new JButton("Edit");
-        JButton delete = new JButton("Delete");
+        JButton remove = new JButton("Remove");
+
+        newNotes.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+            }
+        });
+
+        edit.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+            }
+        });
+
+        remove.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                noteManager.deleteNote(noteManager.getNotes().get(0));
+                noteModel.reload();
+            }
+        });
 
         JPanel button = new JPanel(new FlowLayout());
         button.setBorder(BorderFactory.createTitledBorder(""));
 
         button.add(newNotes);
         button.add(edit);
-        button.add(delete);
+        button.add(remove);
 
         mainPanel.add(periodPanel, BorderLayout.NORTH);
         mainPanel.add(notesPanel, BorderLayout.CENTER);
@@ -75,7 +97,4 @@ public class NoteFrame extends JFrame{
         return noteModel;
     }
 
-    public void setNoteModel(NoteModel noteModel) {
-        this.noteModel = noteModel;
-    }
 }

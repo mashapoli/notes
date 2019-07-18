@@ -1,6 +1,7 @@
 package sql.demo.model;
 
 import sql.demo.Note;
+import sql.demo.NoteManager;
 
 import javax.swing.*;
 import javax.swing.event.ListDataListener;
@@ -10,23 +11,13 @@ import java.util.List;
 
 public class NoteModel extends AbstractListModel<Note> {
 
-    private List<Note> getTestNotes() {
-        Note note1 = new Note();
-        note1.setTitle("Note 1");
-        note1.setContent("Content 1");
+    private NoteManager noteManager;
+    private List<Note> notes;
 
-        Note note2 = new Note();
-        note2.setTitle("Note 2");
-        note2.setContent("Content 2");
-
-        Note note3 = new Note();
-        note3.setTitle("Note 3");
-        note3.setContent("Content 3");
-
-        return Arrays.asList(note1, note2, note3);
+    public NoteModel(NoteManager noteManager) {
+        this.noteManager = noteManager;
+        reload();
     }
-
-    private List<Note> notes = new ArrayList<>(getTestNotes());
 
     @Override
     public int getSize() {
@@ -37,5 +28,11 @@ public class NoteModel extends AbstractListModel<Note> {
     public Note getElementAt(int index) {
         return notes.get(index);
     }
+
+    public void reload() {
+        notes = new ArrayList<>(noteManager.getNotes());
+        fireContentsChanged(this, 0, getSize()-1);
+    }
+
 }
 
