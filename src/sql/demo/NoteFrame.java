@@ -1,15 +1,19 @@
 package sql.demo;
 
+import sql.demo.model.NoteModel;
+
 import javax.swing.*;
 import java.awt.*;
 
-public class NotesFrame extends JFrame{
+public class NoteFrame extends JFrame{
 
-    private JList<Note> notesList = new JList<>();
+    private NoteModel noteModel;
 
-    public NotesFrame(){
-
+    public NoteFrame(){
         super("Notes");
+    }
+
+    public final void initComponents() {
 
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BorderLayout(5, 5));
@@ -38,7 +42,7 @@ public class NotesFrame extends JFrame{
 
         JPanel notesPanel = new JPanel(new BorderLayout());
         notesPanel.setBorder(BorderFactory.createTitledBorder("Notes"));
-        notesPanel.add(notesList, BorderLayout.CENTER);
+        notesPanel.add(new JList<>(getNoteModel()), BorderLayout.CENTER);
 
         JButton newNotes = new JButton("New Notes");
         JButton edit = new JButton("Edit");
@@ -67,4 +71,11 @@ public class NotesFrame extends JFrame{
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
+    public NoteModel getNoteModel() {
+        return noteModel;
+    }
+
+    public void setNoteModel(NoteModel noteModel) {
+        this.noteModel = noteModel;
+    }
 }

@@ -68,12 +68,6 @@ public class Note {
 
     @Override
     public String toString() {
-        return "Note{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", content='" + content + '\'' +
-                ", createdOn=" + createdOn +
-                ", updateOn=" + updateOn +
-                '}';
+        return getTitle();
     }
 }
