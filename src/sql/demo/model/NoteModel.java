@@ -4,9 +4,7 @@ import sql.demo.Note;
 import sql.demo.NoteManager;
 
 import javax.swing.*;
-import javax.swing.event.ListDataListener;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class NoteModel extends AbstractListModel<Note> {

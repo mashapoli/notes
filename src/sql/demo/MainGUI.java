@@ -1,7 +1,5 @@
 package sql.demo;
 
-import sql.demo.model.NoteModel;
-
 import javax.swing.*;
 import java.sql.Connection;
 import java.sql.DriverManager;

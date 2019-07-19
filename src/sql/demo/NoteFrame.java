@@ -4,18 +4,19 @@ import sql.demo.model.NoteModel;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class NoteFrame extends JFrame{
 
     private NoteManager noteManager;
     private NoteModel noteModel;
+    private NotesFrame notesFrame;
+
 
     public NoteFrame(NoteManager noteManager){
         super("Notes");
         this.noteManager = noteManager;
         noteModel = new NoteModel(noteManager);
+        notesFrame = new NotesFrame();
     }
 
     public final void initComponents() {
@@ -49,33 +50,13 @@ public class NoteFrame extends JFrame{
         notesPanel.setBorder(BorderFactory.createTitledBorder("Notes"));
         notesPanel.add(new JList<>(getNoteModel()), BorderLayout.CENTER);
 
-        JButton newNotes = new JButton("New");
-        JButton edit = new JButton("Edit");
-        JButton remove = new JButton("Remove");
-
-        newNotes.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-            }
-        });
-
-        edit.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-            }
-        });
-
-        remove.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                noteManager.deleteNote(noteManager.getNotes().get(0));
-                noteModel.reload();
-            }
-        });
-
         JPanel button = new JPanel(new FlowLayout());
         button.setBorder(BorderFactory.createTitledBorder(""));
 
-        button.add(newNotes);
-        button.add(edit);
-        button.add(remove);
+        button.add(notesFrame.createNewNotesButton());
+        button.add(notesFrame.createEditButton());
+        button.add(notesFrame.createRemoveButton());
+        button.add(notesFrame.creteViewAllButton());
 
         mainPanel.add(periodPanel, BorderLayout.NORTH);
         mainPanel.add(notesPanel, BorderLayout.CENTER);
