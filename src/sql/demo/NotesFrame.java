@@ -6,6 +6,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+
+import static com.sun.deploy.uitoolkit.ToolkitStore.dispose;
 
 public class NotesFrame {
     private JButton newNotes;
@@ -50,11 +53,13 @@ public class NotesFrame {
 
     public JButton createCancelButton(){
         cancel = new JButton("Cancel");
+        cancel();
         return cancel;
     }
 
     public JButton createBackButton(){
         back = new JButton("Back");
+        back();
         return back;
     }
 
@@ -96,6 +101,35 @@ public class NotesFrame {
         mainPanel = new JPanel();
         mainPanel.setLayout(new BorderLayout(5, 5));
         mainPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+    }
+
+    public void back(){
+        back.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    form2.dispose();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+        });
+    }
+
+    public void cancel(){
+        cancel.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                Object[] options = { "Yes", "No" };
+                int n = JOptionPane
+                        .showOptionDialog(form2, "Do not save changes??",
+                                "Confirmation", JOptionPane.YES_NO_OPTION,
+                                JOptionPane.QUESTION_MESSAGE, null, options,
+                                options[0]);
+                if (n == 0) {
+                    form2.setVisible(false);
+                    form2.dispose();
+                }
+            }
+        });
     }
 
     public void newNotes(){
