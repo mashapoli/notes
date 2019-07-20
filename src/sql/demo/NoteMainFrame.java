@@ -55,7 +55,7 @@ public class NoteMainFrame extends JFrame {  // TODO: rename
 
         NoteFrame noteFrame = new NoteFrame(noteModel, list);
         buttonPanel.add(noteFrame.createNewNotesButton());
-        buttonPanel.add(noteFrame.createViewAllButton());
+        buttonPanel.add(noteFrame.createViewButton());
         buttonPanel.add(noteFrame.createEditButton());
         buttonPanel.add(noteFrame.createRemoveButton());
 

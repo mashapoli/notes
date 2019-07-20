@@ -6,7 +6,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Objects;
 
 import static java.util.Objects.isNull;
 
@@ -37,14 +36,15 @@ public class NoteFrame {
         newNotesButton = new JButton("New");
         newNotesButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                frame("New Note");
-                mainPanel.add(Title("Your title"), BorderLayout.NORTH);
-                mainPanel.add(Content("Your content"),BorderLayout.CENTER);
+                createNoteFrame("New Note");
+                mainPanel.add(createTitlePanel("Your title"), BorderLayout.NORTH);
+                mainPanel.add(contentPanel("Your content"),BorderLayout.CENTER);
 
-                mainPanel.add(Button(),BorderLayout.SOUTH);
+                mainPanel.add(createButtonPanel(),BorderLayout.SOUTH);
                 form2.add(mainPanel);
 
             }
+
         });
         return newNotesButton;
     }
@@ -52,11 +52,11 @@ public class NoteFrame {
         editButton = new JButton("Edit");
         editButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                frame("Edit Note");
-                mainPanel.add(Title(""), BorderLayout.NORTH);
-                mainPanel.add(Content(""), BorderLayout.CENTER);
+                createNoteFrame("Edit Note");
+                mainPanel.add(createTitlePanel(""), BorderLayout.NORTH);
+                mainPanel.add(contentPanel(""), BorderLayout.CENTER);
 
-                mainPanel.add(Button(), BorderLayout.SOUTH);
+                mainPanel.add(createButtonPanel(), BorderLayout.SOUTH);
                 form2.add(mainPanel);
             }
         });
@@ -69,25 +69,29 @@ public class NoteFrame {
                 Note selectedNote = noteJList.getSelectedValue();
                 if(!isNull(selectedNote)) {
                     noteModel.deleteNote(selectedNote);
+                    noteModel.reload();
                 }
-                noteModel.reload();
             }
         });
         return removeButton;
     }
 
-    public JButton createViewAllButton(){
+    public JButton createViewButton(){
         viewButton = new JButton("View");
         viewButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                Note selectedNote = noteJList.getSelectedValue();
+                if(!isNull(selectedNote)) {
 
+                    createNoteFrame("View Note");
+                    mainPanel.add(createTitlePanel(""), BorderLayout.NORTH);
+                    mainPanel.add(contentPanel(""), BorderLayout.CENTER);
+                    JPanel backPanel = new JPanel(new FlowLayout());
+                    backPanel.add(createBackButton());
+                    mainPanel.add(backPanel, BorderLayout.SOUTH);
+                    form2.add(mainPanel);
 
-                frame("View Note");
-                mainPanel.add(Title(""), BorderLayout.NORTH);
-                mainPanel.add(Content(""), BorderLayout.CENTER);
-
-                mainPanel.add(createBackButton(), BorderLayout.SOUTH);
-                form2.add(mainPanel);
+                }
             }
         });
         return viewButton;
@@ -131,39 +135,41 @@ public class NoteFrame {
         return backButton;
     }
 
-    public JPanel Content(String s){
-        JPanel content = new JPanel(new FlowLayout());
-        content.setBorder(BorderFactory.createTitledBorder("Content"));
+    public JPanel contentPanel(String s){
+        JPanel contentPanel = new JPanel(new FlowLayout());
+        contentPanel.setBorder(BorderFactory.createTitledBorder("Content"));
         areaContent = new JTextArea(25,50);
         areaContent.setText(s);
         areaContent.setLineWrap(true);
         areaContent.setWrapStyleWord(true);
-        content.add(new JScrollPane(areaContent));
-        return content;
+        contentPanel.add(new JScrollPane(areaContent));
+        return contentPanel;
     }
 
 
-    public JPanel Title(String s){
-        JPanel title = new JPanel(new FlowLayout());
-        title.setBorder(BorderFactory.createTitledBorder("Title"));
+    public JPanel createTitlePanel(String s){
+        JPanel titlePanel = new JPanel(new FlowLayout());
+        titlePanel.setBorder(BorderFactory.createTitledBorder("Title"));
         areaTitle = new JTextArea(1,50);
         areaTitle.setText(s);
         areaTitle.setLineWrap(true);
         areaTitle.setWrapStyleWord(true);
-        title.add(new JScrollPane(areaTitle));
-        return title;
+        titlePanel.add(new JScrollPane(areaTitle));
+        return titlePanel;
     }
 
-    public JPanel Button(){
-        JPanel button = new JPanel(new FlowLayout());
-        button.add(createSaveButton());
-        button.add(createCancelButton());
-        return button;
+    public JPanel createButtonPanel(){
+        JPanel buttonPanel = new JPanel(new FlowLayout());
+        buttonPanel.add(createSaveButton());
+        buttonPanel.add(createCancelButton());
+        return buttonPanel;
     }
+
     private JPanel mainPanel;
     private JFrame form2;
-    public void frame(String t){
-        form2 = new JFrame(t);
+
+    public void createNoteFrame(String frameTitle){
+        form2 = new JFrame(frameTitle);
         form2.setSize(600, 600);
         form2.setVisible(true);
         mainPanel = new JPanel();
