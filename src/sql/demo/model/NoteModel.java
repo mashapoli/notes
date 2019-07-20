@@ -37,6 +37,9 @@ public class NoteModel extends AbstractListModel<Note> {
         reload();
     }
 
-
+    public void addNote(Note note) {
+        noteManager.addNote(note);
+        reload();
+    }
 }
 

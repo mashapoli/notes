@@ -4,6 +4,12 @@ import sql.demo.model.NoteModel;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import static java.util.Objects.isNull;
+import static sql.demo.NoteFrame.ButtonOption.BACK;
+import static sql.demo.NoteFrame.ButtonOption.SAVE_CANCEL;
 
 public class NoteMainFrame extends JFrame {  // TODO: rename
 
@@ -54,10 +60,36 @@ public class NoteMainFrame extends JFrame {  // TODO: rename
         buttonPanel.setBorder(BorderFactory.createTitledBorder(""));
 
         NoteFrame noteFrame = new NoteFrame(noteModel, list);
-        buttonPanel.add(noteFrame.createNewNoteButton());
-        buttonPanel.add(noteFrame.createViewNoteButton());
-        buttonPanel.add(noteFrame.createEditNoteButton());
-        buttonPanel.add(noteFrame.createRemoveNoteButton());
+
+        {
+            JButton newNoteButton = new JButton("New");
+            newNoteButton.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    JFrame noteFrame1 = new NoteFrame.NoteFrameX(noteModel,
+                            "New Note", SAVE_CANCEL, new Note());
+                    noteFrame1.setVisible(true);
+                }
+
+            });
+            buttonPanel.add(newNoteButton);
+        }
+
+        {
+            JButton viewButton = new JButton("View");
+            viewButton.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    Note selectedNote = ((JList<Note>) list).getSelectedValue();
+                    if (!isNull(selectedNote)) {
+                        JFrame noteFrame1 = new NoteFrame.NoteFrameX(
+                                noteModel, "View Note", BACK, selectedNote);
+                        noteFrame1.setVisible(true);
+                    }
+                }
+            });
+            buttonPanel.add(viewButton);
+        }
+//        buttonPanel.add(noteFrame.createEditNoteButton(list));
+//        buttonPanel.add(noteFrame.createRemoveNoteButton());
 
         mainPanel.add(periodPanel, BorderLayout.NORTH);
         mainPanel.add(notesPanel, BorderLayout.CENTER);
