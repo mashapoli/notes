@@ -34,7 +34,7 @@ public class NoteFrame {
         this.noteJList = noteJList;
     }
 
-    public JButton createNewNotesButton(){
+    public JButton createNewNoteButton(){
         newNotesButton = new JButton("New");
         newNotesButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -46,7 +46,7 @@ public class NoteFrame {
         });
         return newNotesButton;
     }
-    public JButton createEditButton(){
+    public JButton createEditNoteButton(){
         editButton = new JButton("Edit");
         editButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -61,7 +61,7 @@ public class NoteFrame {
         return editButton;
     }
 
-    public JButton createViewButton(){
+    public JButton createViewNoteButton(){
         viewButton = new JButton("View");
         viewButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -76,7 +76,7 @@ public class NoteFrame {
         return viewButton;
     }
 
-    public JButton createRemoveButton(){
+    public JButton createRemoveNoteButton(){
         removeButton = new JButton("Remove");
         removeButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -91,7 +91,7 @@ public class NoteFrame {
     }
 
 
-    public JButton createSaveButton(){
+    public JButton createSaveButton(JFrame frame){
         saveButton = new JButton("Save");
         return saveButton;
     }
@@ -100,7 +100,7 @@ public class NoteFrame {
         cancelButton = new JButton("Cancel");
         cancelButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                Object[] options = { "Yes", "No" };
+               /* Object[] options = { "Yes", "No" };
                 int n = JOptionPane
                         .showOptionDialog(frame, "Do not save changes??",
                                 "Confirmation", JOptionPane.YES_NO_OPTION,
@@ -110,6 +110,8 @@ public class NoteFrame {
                     frame.setVisible(false);
                     frame.dispose();
                 }
+                */
+                frame.dispose();
             }
         });
         return cancelButton;
@@ -154,7 +156,7 @@ public class NoteFrame {
 
     public JPanel createButtonPanel(JFrame frame){
         JPanel buttonPanel = new JPanel(new FlowLayout());
-        buttonPanel.add(createSaveButton());
+        buttonPanel.add(createSaveButton(frame));
         buttonPanel.add(createCancelButton(frame));
         return buttonPanel;
     }
@@ -185,7 +187,6 @@ public class NoteFrame {
             default:
                 throw new IllegalStateException("Unexpected value: " + buttonOption);
         }
-
 
         mainPanel.add(buttonPanel, BorderLayout.SOUTH);
         frame.add(mainPanel);
