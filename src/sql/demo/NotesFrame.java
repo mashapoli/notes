@@ -6,61 +6,60 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
 
-import static com.sun.deploy.uitoolkit.ToolkitStore.dispose;
 
 public class NotesFrame {
-    private JButton newNotes;
-    private JButton edit;
-    private JButton remove;
-    private JButton viewAll;
-    private JButton save;
-    private JButton cancel;
-    private JButton back;
+    private JButton newNotesButton;
+    private JButton editButton;
+    private JButton removeButton;
+    private JButton viewButton;
+    private JButton saveButton;
+    private JButton cancelButton;
+    private JButton backButton;
     private JTextArea areaTitle;
     private JTextArea areaContent;
 
     private NoteManager noteManager;
     private NoteModel noteModel;
+    private NoteFrame noteFrame;
 
     public JButton createNewNotesButton(){
-        newNotes = new JButton("New");
+        newNotesButton = new JButton("New");
         newNotes();
-        return newNotes;
+        return newNotesButton;
     }
     public JButton createEditButton(){
-        edit = new JButton("Edit");
+        editButton = new JButton("Edit");
         edit();
-        return edit;
+        return editButton;
     }
     public JButton createRemoveButton(){
-        remove = new JButton("Remove");
+        removeButton = new JButton("Remove");
         remove();
-        return remove;
+        return removeButton;
     }
 
     public JButton creteViewAllButton(){
-        viewAll = new JButton("View Note");
+        viewButton = new JButton("View Note");
         viewAll();
-        return viewAll;
+        return viewButton;
     }
 
     public JButton createSaveButton(){
-        save = new JButton("Save");
-        return save;
+        saveButton = new JButton("Save");
+        return saveButton;
     }
 
     public JButton createCancelButton(){
-        cancel = new JButton("Cancel");
+        cancelButton = new JButton("Cancel");
         cancel();
-        return cancel;
+        return cancelButton;
     }
 
     public JButton createBackButton(){
-        back = new JButton("Back");
+        backButton = new JButton("Back");
         back();
-        return back;
+        return backButton;
     }
 
     public JPanel Content(String s){
@@ -104,7 +103,7 @@ public class NotesFrame {
     }
 
     public void back(){
-        back.addActionListener(new ActionListener(){
+        backButton.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e) {
                 try {
                     form2.dispose();
@@ -116,7 +115,7 @@ public class NotesFrame {
     }
 
     public void cancel(){
-        cancel.addActionListener(new ActionListener() {
+        cancelButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 Object[] options = { "Yes", "No" };
                 int n = JOptionPane
@@ -133,7 +132,7 @@ public class NotesFrame {
     }
 
     public void newNotes(){
-        newNotes.addActionListener(new ActionListener() {
+        newNotesButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 frame("New Note");
                 mainPanel.add(Title("Your title"), BorderLayout.NORTH);
@@ -146,7 +145,7 @@ public class NotesFrame {
         });
     }
     public void edit(){
-        edit.addActionListener(new ActionListener() {
+        editButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 frame("Edit Note");
                 mainPanel.add(Title(""), BorderLayout.NORTH);
@@ -159,17 +158,21 @@ public class NotesFrame {
     }
 
     public void remove(){
-        remove.addActionListener(new ActionListener() {
+        removeButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                noteManager.deleteNote(noteManager.getNotes().get(0));
-                noteModel.reload();
+              // noteManager.deleteNote(noteManager.getNotes().get(0));
+                //noteModel.reload();
+               //noteFrame.list.getSelectedValue();
+
             }
         });
     }
 
     public void viewAll(){
-        viewAll.addActionListener(new ActionListener() {
+        viewButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+
+
                 frame("View Note");
                 mainPanel.add(Title(""), BorderLayout.NORTH);
                 mainPanel.add(Content(""), BorderLayout.CENTER);

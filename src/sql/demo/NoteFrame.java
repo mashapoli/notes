@@ -4,12 +4,14 @@ import sql.demo.model.NoteModel;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 
 public class NoteFrame extends JFrame{
 
     private NoteManager noteManager;
     private NoteModel noteModel;
     private NotesFrame notesFrame;
+    public JList list;
 
 
     public NoteFrame(NoteManager noteManager){
@@ -48,7 +50,8 @@ public class NoteFrame extends JFrame{
 
         JPanel notesPanel = new JPanel(new BorderLayout());
         notesPanel.setBorder(BorderFactory.createTitledBorder("Notes"));
-        notesPanel.add(new JList<>(getNoteModel()), BorderLayout.CENTER);
+        list = new JList(getNoteModel());
+        notesPanel.add(list, BorderLayout.CENTER);
 
         JPanel button = new JPanel(new FlowLayout());
         button.setBorder(BorderFactory.createTitledBorder(""));
@@ -67,6 +70,7 @@ public class NoteFrame extends JFrame{
 
         JButton show = new JButton("Show");
         periodPanel.add(show);
+
 
         setPreferredSize(new Dimension(600, 600));
         pack();
