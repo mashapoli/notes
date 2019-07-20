@@ -53,11 +53,11 @@ public class NoteMainFrame extends JFrame {  // TODO: rename
         JPanel buttonPanel = new JPanel(new FlowLayout());
         buttonPanel.setBorder(BorderFactory.createTitledBorder(""));
 
-        NoteFrame noteFrame = new NoteFrame();
+        NoteFrame noteFrame = new NoteFrame(noteModel, list);
         buttonPanel.add(noteFrame.createNewNotesButton());
+        buttonPanel.add(noteFrame.createViewAllButton());
         buttonPanel.add(noteFrame.createEditButton());
         buttonPanel.add(noteFrame.createRemoveButton());
-        buttonPanel.add(noteFrame.creteViewAllButton());
 
         mainPanel.add(periodPanel, BorderLayout.NORTH);
         mainPanel.add(notesPanel, BorderLayout.CENTER);

@@ -6,6 +6,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Objects;
+
+import static java.util.Objects.isNull;
 
 
 public class NoteFrame {
@@ -20,9 +23,15 @@ public class NoteFrame {
     private JTextArea areaTitle;
     private JTextArea areaContent;
 
-    private NoteManager noteManager;
     private NoteModel noteModel;
     private NoteMainFrame noteMainFrame;
+
+    private JList<Note> noteJList;
+
+    public NoteFrame(NoteModel noteModel, JList<Note> noteJList) {
+        this.noteModel = noteModel;
+        this.noteJList = noteJList;
+    }
 
     public JButton createNewNotesButton(){
         newNotesButton = new JButton("New");
@@ -57,16 +66,17 @@ public class NoteFrame {
         removeButton = new JButton("Remove");
         removeButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-              // noteManager.deleteNote(noteManager.getNotes().get(0));
-                //noteModel.reload();
-               //noteMainFrame.list.getSelectedValue();
-
+                Note selectedNote = noteJList.getSelectedValue();
+                if(!isNull(selectedNote)) {
+                    noteModel.deleteNote(selectedNote);
+                }
+                noteModel.reload();
             }
         });
         return removeButton;
     }
 
-    public JButton creteViewAllButton(){
+    public JButton createViewAllButton(){
         viewButton = new JButton("View");
         viewButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {

@@ -32,5 +32,11 @@ public class NoteModel extends AbstractListModel<Note> {
         fireContentsChanged(this, 0, getSize()-1);
     }
 
+    public void deleteNote(Note note) {
+        noteManager.deleteNote(note);
+        reload();
+    }
+
+
 }
 
