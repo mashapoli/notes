@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import static java.util.Objects.isNull;
+import static sql.demo.NoteFrame.ButtonOption.SAVE_CANCEL;
 
 
 public class NoteFrame {
@@ -36,13 +37,7 @@ public class NoteFrame {
         newNotesButton = new JButton("New");
         newNotesButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                createNoteFrame("New Note");
-                mainPanel.add(createTitlePanel("Your title"), BorderLayout.NORTH);
-                mainPanel.add(contentPanel("Your content"),BorderLayout.CENTER);
-
-                mainPanel.add(createButtonPanel(),BorderLayout.SOUTH);
-                form2.add(mainPanel);
-
+                createNoteFrame("New Note", SAVE_CANCEL, "Your title", "Your content");
             }
 
         });
@@ -52,12 +47,12 @@ public class NoteFrame {
         editButton = new JButton("Edit");
         editButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                createNoteFrame("Edit Note");
-                mainPanel.add(createTitlePanel(""), BorderLayout.NORTH);
-                mainPanel.add(contentPanel(""), BorderLayout.CENTER);
+                Note selectedNote = noteJList.getSelectedValue();
+                if(!isNull(selectedNote)) {
 
-                mainPanel.add(createButtonPanel(), BorderLayout.SOUTH);
-                form2.add(mainPanel);
+                    createNoteFrame("Edit Note", SAVE_CANCEL, selectedNote.getTitle(), selectedNote.getContent());
+
+                }
             }
         });
         return editButton;
@@ -82,15 +77,7 @@ public class NoteFrame {
             public void actionPerformed(ActionEvent e) {
                 Note selectedNote = noteJList.getSelectedValue();
                 if(!isNull(selectedNote)) {
-
-                    createNoteFrame("View Note");
-                    mainPanel.add(createTitlePanel(""), BorderLayout.NORTH);
-                    mainPanel.add(contentPanel(""), BorderLayout.CENTER);
-                    JPanel backPanel = new JPanel(new FlowLayout());
-                    backPanel.add(createBackButton());
-                    mainPanel.add(backPanel, BorderLayout.SOUTH);
-                    form2.add(mainPanel);
-
+                    createNoteFrame("View Note", ButtonOption.BACK, selectedNote.getTitle(), selectedNote.getContent());
                 }
             }
         });
@@ -102,31 +89,31 @@ public class NoteFrame {
         return saveButton;
     }
 
-    public JButton createCancelButton(){
+    public JButton createCancelButton(JFrame frame){
         cancelButton = new JButton("Cancel");
         cancelButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 Object[] options = { "Yes", "No" };
                 int n = JOptionPane
-                        .showOptionDialog(form2, "Do not save changes??",
+                        .showOptionDialog(frame, "Do not save changes??",
                                 "Confirmation", JOptionPane.YES_NO_OPTION,
                                 JOptionPane.QUESTION_MESSAGE, null, options,
                                 options[0]);
                 if (n == 0) {
-                    form2.setVisible(false);
-                    form2.dispose();
+                    frame.setVisible(false);
+                    frame.dispose();
                 }
             }
         });
         return cancelButton;
     }
 
-    public JButton createBackButton(){
+    public JButton createBackButton(JFrame frame){
         backButton = new JButton("Back");
         backButton.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e) {
                 try {
-                    form2.dispose();
+                    frame.dispose();
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
@@ -135,7 +122,7 @@ public class NoteFrame {
         return backButton;
     }
 
-    public JPanel contentPanel(String s){
+    public JPanel createContentPanel(String s){
         JPanel contentPanel = new JPanel(new FlowLayout());
         contentPanel.setBorder(BorderFactory.createTitledBorder("Content"));
         areaContent = new JTextArea(25,50);
@@ -158,23 +145,44 @@ public class NoteFrame {
         return titlePanel;
     }
 
-    public JPanel createButtonPanel(){
+    public JPanel createButtonPanel(JFrame frame){
         JPanel buttonPanel = new JPanel(new FlowLayout());
         buttonPanel.add(createSaveButton());
-        buttonPanel.add(createCancelButton());
+        buttonPanel.add(createCancelButton(frame));
         return buttonPanel;
     }
 
     private JPanel mainPanel;
-    private JFrame form2;
 
-    public void createNoteFrame(String frameTitle){
-        form2 = new JFrame(frameTitle);
-        form2.setSize(600, 600);
-        form2.setVisible(true);
+
+    public enum ButtonOption {
+        SAVE_CANCEL, BACK
+    }
+    public void createNoteFrame(String frameTitle, ButtonOption buttonOption, String noteTitle, String noteContent) {
+        JFrame frame = new JFrame(frameTitle);
+        frame.setSize(600, 600);
+        frame.setVisible(true);
         mainPanel = new JPanel();
         mainPanel.setLayout(new BorderLayout(5, 5));
         mainPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+        mainPanel.add(createTitlePanel(noteTitle), BorderLayout.NORTH);
+        mainPanel.add(createContentPanel(noteContent), BorderLayout.CENTER);
+
+        JPanel buttonPanel;
+        switch (buttonOption) {
+            case SAVE_CANCEL:
+                buttonPanel = createButtonPanel(frame);
+                break;
+            case BACK:
+                buttonPanel = new JPanel(new FlowLayout());
+                buttonPanel.add(createBackButton(frame));
+                break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + buttonOption);
+        }
+
+        mainPanel.add(buttonPanel, BorderLayout.SOUTH);
+        frame.add(mainPanel);
     }
 
 }
