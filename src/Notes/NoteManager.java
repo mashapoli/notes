@@ -1,4 +1,4 @@
-package sql.demo;
+package Notes;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;

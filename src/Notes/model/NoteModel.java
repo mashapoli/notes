@@ -1,13 +1,12 @@
-package sql.demo.model;
+package Notes.model;
 
-import sql.demo.Note;
-import sql.demo.NoteManager;
+import Notes.Note;
+import Notes.NoteManager;
 
 import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Objects;
 
 import static java.util.Objects.isNull;
 

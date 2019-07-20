@@ -1,0 +1,9 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="SQLDemo:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/SQLDemo_jar</output-path>
+    <root id="archive" name="SQLDemo.jar">
+      <element id="module-output" name="SQLDemo" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/h2-1.4.199.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>

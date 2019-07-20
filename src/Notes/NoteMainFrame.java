@@ -1,20 +1,19 @@
-package sql.demo;
+package Notes;
 
-import sql.demo.model.NoteModel;
+import Notes.model.NoteModel;
 
 import javax.swing.*;
 import javax.swing.text.MaskFormatter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 import static java.util.Objects.isNull;
-import static sql.demo.NoteFrame.ButtonOption.*;
+import static Notes.NoteFrame.ButtonOption.*;
 
-public class NoteMainFrame extends JFrame {  // TODO: rename
+public class NoteMainFrame extends JFrame {
 
     private NoteManager noteManager;
     private NoteModel noteModel;
@@ -40,6 +39,7 @@ public class NoteMainFrame extends JFrame {  // TODO: rename
         from.setLayout(new BorderLayout());
         String sFrom = "YYYY-MM-DD";
         JFormattedTextField fieldFrom = new JFormattedTextField(getMaskFormatter());
+        fieldFrom.setColumns(6);
         fieldFrom.setText(sFrom);
 
         periodPanel.add(from);
@@ -49,6 +49,7 @@ public class NoteMainFrame extends JFrame {  // TODO: rename
         from.setLayout(new BorderLayout());
         String sTo = "YYYY-MM-DD";
         JFormattedTextField fieldTo = new JFormattedTextField(getMaskFormatter());
+        fieldTo.setColumns(6);
         fieldTo.setText(sTo);
 
         periodPanel.add(to);
