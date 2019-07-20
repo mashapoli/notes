@@ -22,43 +22,9 @@ public class NoteFrame {
         this.noteJList = noteJList;
     }
 
-    public static JButton createEditNoteButton(){
-        JButton editButton = new JButton("Edit");
-        editButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-//                Note selectedNote = noteJList.getSelectedValue();
-//                if(!isNull(selectedNote)) {
-//                    JFrame noteFrame = new NoteFrameX(
-//                            "Edit Note", SAVE_CANCEL, selectedNote.getTitle(), selectedNote.getContent());
-//                    noteFrame.setVisible(true);
-//                }
-            }
-        });
-        return editButton;
-    }
-
-    public static JButton createRemoveNoteButton(JList<Note> noteJList){
-        JButton removeButton = new JButton("Remove");
-        removeButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                Note selectedNote = noteJList.getSelectedValue();
-                if(!isNull(selectedNote)) {
-//                    noteModel.deleteNote(selectedNote);
-//                    noteModel.reload();
-                }
-            }
-        });
-        return removeButton;
-    }
-
-    public static JButton createSaveButton(JFrame frame){
-        JButton saveButton = new JButton("Save");
-        return saveButton;
-    }
-
 
     public enum ButtonOption {
-        NEW_CANCEL, SAVE_CANCEL, BACK
+        CREATE_CANCEL, SAVE_CANCEL, BACK
     }
 
     public static class NoteFrameX extends JFrame{
@@ -93,14 +59,14 @@ public class NoteFrame {
 
             JPanel buttonPanel;
             switch (buttonOption) {
-                case NEW_CANCEL:
+                case CREATE_CANCEL:
                     buttonPanel = new JPanel(new FlowLayout());
-                    JButton newButton = new JButton("New");
+                    JButton newButton = new JButton("Create");
                     newButton.addActionListener(new ActionListener() {
                         public void actionPerformed(ActionEvent e) {
                             note.setTitle(titleTextArea.getText());
                             note.setContent(contentTextArea.getText());
-                            noteModel
+                            noteModel.addNote(note);
                             dispose();
                         }
                     });
@@ -115,7 +81,17 @@ public class NoteFrame {
                 break;
                 case SAVE_CANCEL:
                     buttonPanel = new JPanel(new FlowLayout());
-                    buttonPanel.add(createSaveButton(this));
+                    JButton saveButton = new JButton("Save");
+                    saveButton.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            note.setTitle(titleTextArea.getText());
+                            note.setContent(contentTextArea.getText());
+                            noteModel.updateNote(note);
+                            dispose();
+                        }
+                    });
+                    buttonPanel.add(saveButton);
                     JButton cancelButton = new JButton("Cancel");
                     cancelButton.addActionListener(new ActionListener() {
                         public void actionPerformed(ActionEvent e) {

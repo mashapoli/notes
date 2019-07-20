@@ -3,13 +3,16 @@ package sql.demo;
 import sql.demo.model.NoteModel;
 
 import javax.swing.*;
+import javax.swing.text.MaskFormatter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 import static java.util.Objects.isNull;
-import static sql.demo.NoteFrame.ButtonOption.BACK;
-import static sql.demo.NoteFrame.ButtonOption.SAVE_CANCEL;
+import static sql.demo.NoteFrame.ButtonOption.*;
 
 public class NoteMainFrame extends JFrame {  // TODO: rename
 
@@ -35,21 +38,58 @@ public class NoteMainFrame extends JFrame {  // TODO: rename
 
         JLabel from = new JLabel("From");
         from.setLayout(new BorderLayout());
-        String sFrom = "ex.2019-06-30 20:18:54.7";
-        JTextField fieldF = new JTextField();
-        fieldF.setText(sFrom);
+        String sFrom = "YYYY-MM-DD";
+        JFormattedTextField fieldFrom = new JFormattedTextField(getMaskFormatter());
+        fieldFrom.setText(sFrom);
 
         periodPanel.add(from);
-        periodPanel.add(fieldF);
+        periodPanel.add(fieldFrom);
 
         JLabel to = new JLabel("To");
         from.setLayout(new BorderLayout());
-        String sTo = "ex.2019-07-30 20:18:54.7";
-        JTextField fieldTo = new JTextField();
+        String sTo = "YYYY-MM-DD";
+        JFormattedTextField fieldTo = new JFormattedTextField(getMaskFormatter());
         fieldTo.setText(sTo);
 
         periodPanel.add(to);
         periodPanel.add(fieldTo);
+
+        {
+            JButton applyButton = new JButton("Apply");
+            applyButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    try {
+                        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+                        String fieldFromValue = (String) fieldFrom.getValue();
+                        String fieldToValue = (String) fieldTo.getValue();
+                        if(!isNull(fieldFromValue) && !isNull(fieldToValue)) {
+                            noteModel.setFromDate(format.parse(fieldFromValue));
+                            noteModel.setToDate(format.parse(fieldToValue));
+                            noteModel.reload();
+                        }
+                    } catch (ParseException ex) {
+                        throw new IllegalArgumentException(ex);
+                    }
+                }
+            });
+            periodPanel.add(applyButton);
+        }
+
+        {
+            JButton resetRangeButton = new JButton("Reset");
+            resetRangeButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    fieldFrom.setText("");
+                    fieldTo.setText("");
+                    noteModel.setFromDate(null);
+                    noteModel.setToDate(null);
+                    noteModel.reload();
+                }
+            });
+            periodPanel.add(resetRangeButton);
+        }
 
         JPanel notesPanel = new JPanel(new BorderLayout());
         notesPanel.setBorder(BorderFactory.createTitledBorder("Notes"));
@@ -66,7 +106,7 @@ public class NoteMainFrame extends JFrame {  // TODO: rename
             newNoteButton.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                     JFrame noteFrame1 = new NoteFrame.NoteFrameX(noteModel,
-                            "New Note", SAVE_CANCEL, new Note());
+                            "New Note", CREATE_CANCEL, new Note());
                     noteFrame1.setVisible(true);
                 }
 
@@ -88,8 +128,33 @@ public class NoteMainFrame extends JFrame {  // TODO: rename
             });
             buttonPanel.add(viewButton);
         }
-//        buttonPanel.add(noteFrame.createEditNoteButton(list));
-//        buttonPanel.add(noteFrame.createRemoveNoteButton());
+        {
+            JButton editButton = new JButton("Edit");
+            editButton.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    Note selectedNote = ((JList<Note>) list).getSelectedValue();
+                    if (!isNull(selectedNote)) {
+                        JFrame noteFrame1 = new NoteFrame.NoteFrameX(
+                                noteModel, "Edit Note", SAVE_CANCEL, selectedNote);
+                        noteFrame1.setVisible(true);
+                    }
+                }
+            });
+            buttonPanel.add(editButton);
+        }
+        {
+            JButton removeButton = new JButton("Remove");
+            removeButton.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    Note selectedNote = ((JList<Note>) list).getSelectedValue();
+                    if (!isNull(selectedNote)) {
+                        noteModel.deleteNote(selectedNote);
+                        noteModel.reload();
+                    }
+                }
+            });
+            buttonPanel.add(removeButton);
+        }
 
         mainPanel.add(periodPanel, BorderLayout.NORTH);
         mainPanel.add(notesPanel, BorderLayout.CENTER);
@@ -97,9 +162,6 @@ public class NoteMainFrame extends JFrame {  // TODO: rename
 
 
         getContentPane().add(mainPanel);
-
-        JButton show = new JButton("Show");
-        periodPanel.add(show);
 
 
         setPreferredSize(new Dimension(600, 600));
@@ -110,6 +172,15 @@ public class NoteMainFrame extends JFrame {  // TODO: rename
 
     public NoteModel getNoteModel() {
         return noteModel;
+    }
+
+    private MaskFormatter getMaskFormatter() {
+        try {
+            return new MaskFormatter("####-##-##");
+        } catch (ParseException e) {
+            throw new IllegalArgumentException(e);
+        }
+
     }
 
 }

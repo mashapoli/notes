@@ -23,12 +23,13 @@ public class NoteManager {
     }
 
     public void updateNote(Note n) {
+
         if (n.getId() == null) {
             throw new IllegalArgumentException("Note doesn't exists in DB");
         }
-        queryManager.executeQuery(
-                String.format("UPDATE INTO NOTES (TITLE, CONTENT, UPDATED_ON) VALUES(%s, %s, %s) WHERE ID = %s",
-                        n.getTitle(), n.getContent(), n.getUpdateOn(), n.getId()));
+        queryManager.execute(
+                String.format("UPDATE NOTES SET TITLE = '%s', CONTENT = '%s', UPDATED_ON = TS '%s' WHERE ID = %s",
+                        n.getTitle(), n.getContent(), dateToTsStr(n.getUpdateOn()), n.getId()));
     }
 
     public void deleteNote(Note n) {
@@ -40,8 +41,8 @@ public class NoteManager {
 
         List<Map<String, Object>> rows = queryManager.executeQuery(
                 String.format("SELECT * FROM NOTES " +
-                                "WHERE UPDATEDATE BETWEEN (TS '%s') AND (TS '%s') OR DATECREATED BETWEEN (TS '%s') AND (TS '%s')",
-                        dateFrom, dateTo, dateFrom, dateTo));
+                                "WHERE UPDATED_ON BETWEEN (TS '%s') AND (TS '%s') OR CREATED_ON BETWEEN (TS '%s') AND (TS '%s')",
+                        dateToTsStr(dateFrom), dateToTsStr(dateTo), dateToTsStr(dateFrom), dateToTsStr(dateTo)));
 
         return mapsToNotes(rows);
     }

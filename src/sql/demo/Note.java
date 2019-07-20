@@ -56,6 +56,7 @@ public class Note {
 
     public void setTitle(String title) {
         this.title = title;
+        setUpdatedOnToNow();
     }
 
     public String getContent() {
@@ -64,8 +65,12 @@ public class Note {
 
     public void setContent(String content) {
         this.content = content;
+        setUpdatedOnToNow();
     }
 
+    private void setUpdatedOnToNow() {
+       this.updateOn = new Date();
+    }
     @Override
     public String toString() {
         return getTitle();
