@@ -25,23 +25,60 @@ public class NotesFrame {
 
     public JButton createNewNotesButton(){
         newNotesButton = new JButton("New");
-        newNotes();
+        newNotesButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                frame("New Note");
+                mainPanel.add(Title("Your title"), BorderLayout.NORTH);
+                mainPanel.add(Content("Your content"),BorderLayout.CENTER);
+
+                mainPanel.add(Button(),BorderLayout.SOUTH);
+                form2.add(mainPanel);
+
+            }
+        });
         return newNotesButton;
     }
     public JButton createEditButton(){
         editButton = new JButton("Edit");
-        edit();
+        editButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                frame("Edit Note");
+                mainPanel.add(Title(""), BorderLayout.NORTH);
+                mainPanel.add(Content(""), BorderLayout.CENTER);
+
+                mainPanel.add(Button(), BorderLayout.SOUTH);
+                form2.add(mainPanel);
+            }
+        });
         return editButton;
     }
     public JButton createRemoveButton(){
         removeButton = new JButton("Remove");
-        remove();
+        removeButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+              // noteManager.deleteNote(noteManager.getNotes().get(0));
+                //noteModel.reload();
+               //noteFrame.list.getSelectedValue();
+
+            }
+        });
         return removeButton;
     }
 
     public JButton creteViewAllButton(){
-        viewButton = new JButton("View Note");
-        viewAll();
+        viewButton = new JButton("View");
+        viewButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+
+
+                frame("View Note");
+                mainPanel.add(Title(""), BorderLayout.NORTH);
+                mainPanel.add(Content(""), BorderLayout.CENTER);
+
+                mainPanel.add(createBackButton(), BorderLayout.SOUTH);
+                form2.add(mainPanel);
+            }
+        });
         return viewButton;
     }
 
@@ -52,13 +89,34 @@ public class NotesFrame {
 
     public JButton createCancelButton(){
         cancelButton = new JButton("Cancel");
-        cancel();
+        cancelButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                Object[] options = { "Yes", "No" };
+                int n = JOptionPane
+                        .showOptionDialog(form2, "Do not save changes??",
+                                "Confirmation", JOptionPane.YES_NO_OPTION,
+                                JOptionPane.QUESTION_MESSAGE, null, options,
+                                options[0]);
+                if (n == 0) {
+                    form2.setVisible(false);
+                    form2.dispose();
+                }
+            }
+        });
         return cancelButton;
     }
 
     public JButton createBackButton(){
         backButton = new JButton("Back");
-        back();
+        backButton.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    form2.dispose();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+        });
         return backButton;
     }
 
@@ -102,84 +160,4 @@ public class NotesFrame {
         mainPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
     }
 
-    public void back(){
-        backButton.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    form2.dispose();
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
-            }
-        });
-    }
-
-    public void cancel(){
-        cancelButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                Object[] options = { "Yes", "No" };
-                int n = JOptionPane
-                        .showOptionDialog(form2, "Do not save changes??",
-                                "Confirmation", JOptionPane.YES_NO_OPTION,
-                                JOptionPane.QUESTION_MESSAGE, null, options,
-                                options[0]);
-                if (n == 0) {
-                    form2.setVisible(false);
-                    form2.dispose();
-                }
-            }
-        });
-    }
-
-    public void newNotes(){
-        newNotesButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                frame("New Note");
-                mainPanel.add(Title("Your title"), BorderLayout.NORTH);
-                mainPanel.add(Content("Your content"),BorderLayout.CENTER);
-
-                mainPanel.add(Button(),BorderLayout.SOUTH);
-                form2.add(mainPanel);
-
-            }
-        });
-    }
-    public void edit(){
-        editButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                frame("Edit Note");
-                mainPanel.add(Title(""), BorderLayout.NORTH);
-                mainPanel.add(Content(""), BorderLayout.CENTER);
-
-                mainPanel.add(Button(), BorderLayout.SOUTH);
-                form2.add(mainPanel);
-            }
-        });
-    }
-
-    public void remove(){
-        removeButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-              // noteManager.deleteNote(noteManager.getNotes().get(0));
-                //noteModel.reload();
-               //noteFrame.list.getSelectedValue();
-
-            }
-        });
-    }
-
-    public void viewAll(){
-        viewButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-
-
-                frame("View Note");
-                mainPanel.add(Title(""), BorderLayout.NORTH);
-                mainPanel.add(Content(""), BorderLayout.CENTER);
-
-                mainPanel.add(createBackButton(), BorderLayout.SOUTH);
-                form2.add(mainPanel);
-            }
-        });
-    }
 }
