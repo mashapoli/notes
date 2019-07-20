@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import static java.util.Objects.isNull;
+import static sql.demo.NoteFrame.ButtonOption.BACK;
 import static sql.demo.NoteFrame.ButtonOption.SAVE_CANCEL;
 
 
@@ -37,7 +38,9 @@ public class NoteFrame {
         newNotesButton = new JButton("New");
         newNotesButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                createNoteFrame("New Note", SAVE_CANCEL, "Your title", "Your content");
+                JFrame noteFrame = createNoteFrame(
+                        "New Note", SAVE_CANCEL, "Your title", "Your content");
+                noteFrame.setVisible(true);
             }
 
         });
@@ -49,14 +52,30 @@ public class NoteFrame {
             public void actionPerformed(ActionEvent e) {
                 Note selectedNote = noteJList.getSelectedValue();
                 if(!isNull(selectedNote)) {
-
-                    createNoteFrame("Edit Note", SAVE_CANCEL, selectedNote.getTitle(), selectedNote.getContent());
-
+                    JFrame noteFrame = createNoteFrame(
+                            "Edit Note", SAVE_CANCEL, selectedNote.getTitle(), selectedNote.getContent());
+                    noteFrame.setVisible(true);
                 }
             }
         });
         return editButton;
     }
+
+    public JButton createViewButton(){
+        viewButton = new JButton("View");
+        viewButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                Note selectedNote = noteJList.getSelectedValue();
+                if(!isNull(selectedNote)) {
+                    JFrame noteFrame = createNoteFrame(
+                            "View Note", BACK, selectedNote.getTitle(), selectedNote.getContent());
+                    noteFrame.setVisible(true);
+                }
+            }
+        });
+        return viewButton;
+    }
+
     public JButton createRemoveButton(){
         removeButton = new JButton("Remove");
         removeButton.addActionListener(new ActionListener() {
@@ -71,18 +90,6 @@ public class NoteFrame {
         return removeButton;
     }
 
-    public JButton createViewButton(){
-        viewButton = new JButton("View");
-        viewButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                Note selectedNote = noteJList.getSelectedValue();
-                if(!isNull(selectedNote)) {
-                    createNoteFrame("View Note", ButtonOption.BACK, selectedNote.getTitle(), selectedNote.getContent());
-                }
-            }
-        });
-        return viewButton;
-    }
 
     public JButton createSaveButton(){
         saveButton = new JButton("Save");
@@ -158,10 +165,8 @@ public class NoteFrame {
     public enum ButtonOption {
         SAVE_CANCEL, BACK
     }
-    public void createNoteFrame(String frameTitle, ButtonOption buttonOption, String noteTitle, String noteContent) {
+    public JFrame createNoteFrame(String frameTitle, ButtonOption buttonOption, String noteTitle, String noteContent) {
         JFrame frame = new JFrame(frameTitle);
-        frame.setSize(600, 600);
-        frame.setVisible(true);
         mainPanel = new JPanel();
         mainPanel.setLayout(new BorderLayout(5, 5));
         mainPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
@@ -181,8 +186,12 @@ public class NoteFrame {
                 throw new IllegalStateException("Unexpected value: " + buttonOption);
         }
 
+
         mainPanel.add(buttonPanel, BorderLayout.SOUTH);
         frame.add(mainPanel);
+        frame.setSize(600, 600);
+        frame.pack();
+        return frame;
     }
 
 }
