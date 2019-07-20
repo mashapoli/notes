@@ -44,12 +44,12 @@ public class MainGUI {
         noteManager.addNote(note3);
 
         JFrame.setDefaultLookAndFeelDecorated(true);
-        NoteFrame noteFrame = new NoteFrame(noteManager);
+        NoteMainFrame noteMainFrame = new NoteMainFrame(noteManager);
 
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-                noteFrame.initComponents();
-                noteFrame.setVisible(true);
+                noteMainFrame.initComponents();
+                noteMainFrame.setVisible(true);
             }
         });
         System.out.println("hello outside");
