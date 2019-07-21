@@ -19,7 +19,7 @@ public class NoteMainFrame extends JFrame {
 
 
     public NoteMainFrame(NoteManager noteManager){
-        super("com/github/mashapoli/notes");
+        super("Notes");
         this.noteManager = noteManager;
         noteModel = new NoteModel(noteManager);
     }
