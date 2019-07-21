@@ -1,4 +1,4 @@
-package Notes;
+package com.github.mashapoli.notes;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;

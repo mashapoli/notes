@@ -1,7 +1,7 @@
-package Notes.model;
+package com.github.mashapoli.notes;
 
-import Notes.Note;
-import Notes.NoteManager;
+import com.github.mashapoli.notes.Note;
+import com.github.mashapoli.notes.NoteManager;
 
 import javax.swing.*;
 import java.util.ArrayList;

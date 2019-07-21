@@ -1,4 +1,4 @@
-package Notes;
+package com.github.mashapoli.notes;
 
 import javax.swing.*;
 import java.sql.Connection;

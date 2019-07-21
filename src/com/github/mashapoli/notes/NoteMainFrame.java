@@ -1,6 +1,4 @@
-package Notes;
-
-import Notes.model.NoteModel;
+package com.github.mashapoli.notes;
 
 import javax.swing.*;
 import javax.swing.text.MaskFormatter;
@@ -11,7 +9,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 import static java.util.Objects.isNull;
-import static Notes.NoteFrame.ButtonOption.*;
+import static com.github.mashapoli.notes.NoteFrame.ButtonOption.*;
 
 public class NoteMainFrame extends JFrame {
 
@@ -21,7 +19,7 @@ public class NoteMainFrame extends JFrame {
 
 
     public NoteMainFrame(NoteManager noteManager){
-        super("Notes");
+        super("com/github/mashapoli/notes");
         this.noteManager = noteManager;
         noteModel = new NoteModel(noteManager);
     }
@@ -100,13 +98,11 @@ public class NoteMainFrame extends JFrame {
         JPanel buttonPanel = new JPanel(new FlowLayout());
         buttonPanel.setBorder(BorderFactory.createTitledBorder(""));
 
-        NoteFrame noteFrame = new NoteFrame(noteModel, list);
-
         {
             JButton newNoteButton = new JButton("New");
             newNoteButton.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
-                    JFrame noteFrame1 = new NoteFrame.NoteFrameX(noteModel,
+                    JFrame noteFrame1 = new NoteFrame(noteModel,
                             "New Note", CREATE_CANCEL, new Note());
                     noteFrame1.setVisible(true);
                 }
@@ -121,7 +117,7 @@ public class NoteMainFrame extends JFrame {
                 public void actionPerformed(ActionEvent e) {
                     Note selectedNote = ((JList<Note>) list).getSelectedValue();
                     if (!isNull(selectedNote)) {
-                        JFrame noteFrame1 = new NoteFrame.NoteFrameX(
+                        JFrame noteFrame1 = new NoteFrame(
                                 noteModel, "View Note", BACK, selectedNote);
                         noteFrame1.setVisible(true);
                     }
@@ -135,7 +131,7 @@ public class NoteMainFrame extends JFrame {
                 public void actionPerformed(ActionEvent e) {
                     Note selectedNote = ((JList<Note>) list).getSelectedValue();
                     if (!isNull(selectedNote)) {
-                        JFrame noteFrame1 = new NoteFrame.NoteFrameX(
+                        JFrame noteFrame1 = new NoteFrame(
                                 noteModel, "Edit Note", SAVE_CANCEL, selectedNote);
                         noteFrame1.setVisible(true);
                     }
